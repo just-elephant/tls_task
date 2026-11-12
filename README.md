@@ -44,3 +44,11 @@ git'ом — там могут быть персональные данные у
 
 - `math_task/make_conditions.py` — генерирует `math_task/conditions.csv`
 - `corsi/corsi_conditions.py` — генерирует `corsi/corsi_conditions.csv`
+
+## TODO
+
+- [x] метки для ЭЭГ — добавлены через LSL (`outlet.push_sample` в `math_task.psyexp`,
+      `trig_eq`/`trig_probe`/`trig_delay` коды в conditions.csv)
+- [ ] сменить клавиши ответа на стрелки вместо Y/N
+- [ ] `eq_sign`: выставить Start 2.51 вместо 2.5 (полкадра запаса снимает гонку, а
+      10 мс сдвига на восприятие не влияют)
