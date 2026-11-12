@@ -1,27 +1,33 @@
-# TLS Experiment
+# NeuroSpan
 
-Батарея когнитивных задач на PsychoPy: тест Корси (пространственная память) и
-math/operation-span задача (рабочая память). Запускаются последовательно через
-`main.py`, порядок задач чередуется по чётности номера участника.
+**EEG-synced cognitive battery built with PsychoPy** — Corsi block-tapping task
+(visuospatial span) and a math/operation-span task (verbal working memory),
+run back-to-back as a single session with Lab Streaming Layer (LSL) event
+markers for EEG synchronization.
 
-## Структура
+![NeuroSpan demo](assets/demo.gif)
+
+*(illustrative mock-up of the task flow, not a screen capture)*
+
+## Structure
 
 ```
-main.py                  # точка входа: запускает обе задачи через PsychoPy Session
-corsi/                    # тест Корси (PsychoPy Builder: .psyexp + сгенерированный .py)
+main.py                   # entry point: runs both tasks through a PsychoPy Session
+corsi/                     # Corsi block-tapping task (PsychoPy Builder: .psyexp + generated .py)
   3rdtask.psyexp
   3rdtask.py
-  corsi_conditions.py     # генерация условий
+  corsi_conditions.py      # condition generator
   corsi_conditions.csv
-math_task/                # math/operation-span задача
+math_task/                 # math / operation-span task
   math_task.psyexp
   math_task.py
-  make_conditions.py      # генерация условий (уравнения, 40 проб)
+  make_conditions.py       # condition generator (equations, 40 trials)
   conditions.csv
-data/                      # результаты запусков через main.py (в git не попадает)
+assets/                     # README media
+data/                       # output of runs through main.py (git-ignored)
 ```
 
-## Требования
+## Requirements
 
 - Python 3.10
 - [PsychoPy](https://www.psychopy.org/) 2026.1.3
@@ -30,25 +36,29 @@ data/                      # результаты запусков через ma
 pip install -r requirements.txt
 ```
 
-## Запуск
+## Running
 
 ```bash
 python main.py
 ```
 
-Откроется диалог с полями `participant` и `session`, затем по очереди запустятся
-обе задачи. Результаты (csv/log/psydat) сохраняются в `data/` и не отслеживаются
-git'ом — там могут быть персональные данные участников.
+A dialog asks for `participant` and `session`, then both tasks run in turn —
+task order alternates by participant number parity. Results (csv/log/psydat)
+are saved under `data/` and are git-ignored, since they may contain
+participant data.
 
-## Генерация условий
+## Design notes
 
-- `math_task/make_conditions.py` — генерирует `math_task/conditions.csv`
-- `corsi/corsi_conditions.py` — генерирует `corsi/corsi_conditions.csv`
+- **Corsi block-tapping task** — a sequence of grid cells lights up; the
+  participant reproduces it in order. Classic measure of visuospatial span.
+- **Math span task** — a three-term equation is shown, followed by a probe
+  result the participant must accept or reject. Trials are generated with a
+  fixed seed and a controlled distractor distance (`make_conditions.py`),
+  grouped by equation complexity for analysis.
+- **EEG integration** — an LSL outlet streams event markers (equation onset,
+  probe onset, match/mismatch) for alignment with concurrently recorded EEG.
 
-## TODO
+## Generating conditions
 
-- [x] метки для ЭЭГ — добавлены через LSL (`outlet.push_sample` в `math_task.psyexp`,
-      `trig_eq`/`trig_probe`/`trig_delay` коды в conditions.csv)
-- [ ] сменить клавиши ответа на стрелки вместо Y/N
-- [ ] `eq_sign`: выставить Start 2.51 вместо 2.5 (полкадра запаса снимает гонку, а
-      10 мс сдвига на восприятие не влияют)
+- `math_task/make_conditions.py` → `math_task/conditions.csv`
+- `corsi/corsi_conditions.py` → `corsi/corsi_conditions.csv`
