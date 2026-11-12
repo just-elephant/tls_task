@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# IDE
+.idea/
+
+# PsychoPy / collected data (participant data, keep out of git)
+data/
+math_task/data/
+corsi/data/
+*.psydat
+*.log
+
+# archives
+*.zip
