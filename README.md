@@ -1,11 +1,11 @@
-# NeuroSpan
+# TLS Cognitive Battery
 
 **EEG-synced cognitive battery built with PsychoPy** — Corsi block-tapping task
 (visuospatial span) and a math/operation-span task (verbal working memory),
 run back-to-back as a single session with Lab Streaming Layer (LSL) event
 markers for EEG synchronization.
 
-![NeuroSpan demo](assets/demo.gif)
+![TLS Cognitive Battery demo](assets/demo.gif)
 
 *(illustrative mock-up of the task flow, not a screen capture)*
 
